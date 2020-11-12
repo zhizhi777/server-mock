@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mock</title>
+</head>
+<body>
+  <div class="container">
+    <select id="city-select">
+      <option value="北京">北京</option>
+      <option value="上海">上海</option>
+      <option value="天津">天津</option>
+      <option value="其他">其他</option>
+    </select>
+    <button class="btn-getWeather">获取天气</button>
+    <span class="weather"></span>
+  </div>
+
+  <script>
+    const $ = s => document.querySelector(s)
+
+
+    // window.onload = function(){
+    //   let xhr = new XMLHttpRequest()
+    //   xhr.open('GET','http://localhost:3030/getWeather?city='+ $('#city-select').value, true)
+    //   xhr.onload = function(){
+    //     console.log(xhr)
+    //     let cityWeather = JSON.parse(xhr.responseText).city + ":" + JSON.parse(xhr.responseText).weather
+    //     console.log(cityWeather)
+    //     $('.weather').innerText = cityWeather
+    //   }
+    //   xhr.send()
+    // }
+    
+    // $('#city-select').onchange = function(){
+    //   let xhr = new XMLHttpRequest()
+    //   xhr.open('GET','http://localhost:3030/getWeather?city='+ $('#city-select').value, true)
+    //   xhr.onload = function(){
+    //     console.log(xhr)
+    //     let cityWeather = JSON.parse(xhr.responseText).city + ":" + JSON.parse(xhr.responseText).weather
+    //     console.log(cityWeather)
+    //     $('.weather').innerText = cityWeather
+    //   }
+    //   xhr.send()
+    // }
+
+
+    // 简化代码
+    // const get = function(){
+    //   let xhr = new XMLHttpRequest()
+    //   xhr.open('GET','http://localhost:3030/getWeather?city='+ $('#city-select').value, true)
+    //   xhr.onload = function(){
+    //     console.log(xhr)
+    //     let cityWeather = JSON.parse(xhr.responseText).city + ":" + JSON.parse(xhr.responseText).weather
+    //     console.log(cityWeather)
+    //     $('.weather').innerText = cityWeather
+    //   }
+    //   xhr.send()
+    // }
+    // window.onload = get()
+    
+    // $('#city-select').onchange = function(){
+    //    $('#city-select').value
+    //   get()
+    // }
+    
+    //AJAX封装
+    let getWeatherurl = 'http://localhost:3030/getWeather'
+    const request = (url, params, onsuccess, onerror)=>{
+      url = url + '?city=' + params
+      let xhr = new XMLHttpRequest()
+      xhr.open('GET', url, true)
+      xhr.onload = function(){
+        let cityWeather = JSON.parse(xhr.responseText).city + ":" + JSON.parse(xhr.responseText).weather
+        $('.weather').innerText = cityWeather
+      }
+      xhr.send()
+    }
+
+   
+    window.onload = request(getWeatherurl, $('#city-select').value)
+    $('#city-select').onchange = function(){
+      let value = $('#city-select').value
+      request(getWeatherurl,value)
+    }
+    
+    
+  </script>
+</body>
+</html>
